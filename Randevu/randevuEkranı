@@ -1,0 +1,116 @@
+package hospital;
+ 
+ import java.awt.Color;
+ import java.awt.EventQueue;
+ import java.awt.Font;
+ import java.awt.Image;
+ import javax.swing.*;
+ 
+ public class deneme extends JFrame {
+ 
+     private static final long serialVersionUID = 1L;
+     private JPanel contentPane;
+     private ButtonGroup group;
+     private JTextField textField_1;
+     private JComboBox<String> comboBox;
+     private JComboBox<String> comboBox2;
+     private JComboBox<String> comboBoxSaat;
+ 
+     public static void main(String[] args) {
+         EventQueue.invokeLater(new Runnable() {
+             public void run() {
+                 try {
+                     deneme frame = new deneme();
+                     frame.setVisible(true);
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                 }
+             }
+         });
+     }
+ 
+     public deneme() {
+         setTitle("Online Randevu Sistemi");
+         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         setBounds(100, 100, 935, 488);
+ 
+         contentPane = new JPanel();
+         contentPane.setLayout(null);
+         setContentPane(contentPane);
+ 
+         // *Logo*
+         ImageIcon originalLogo = new ImageIcon(getClass().getResource("hastlogo.png"));
+         Image resizedLogo = originalLogo.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+         ImageIcon logoIcon = new ImageIcon(resizedLogo);
+ 
+         JLabel lblnewlabel1 = new JLabel(logoIcon);
+         lblnewlabel1.setBounds(10, 10, 200, 150);
+         contentPane.add(lblnewlabel1);
+ 
+         JLabel lbl1 = new JLabel("Online Randevu Sistemi");
+         lbl1.setBounds(294, 68, 332, 29);
+         lbl1.setFont(new Font("Verdana", Font.BOLD | Font.ITALIC, 23));
+         contentPane.add(lbl1);
+ 
+         // *Doktorlar için JComboBox*
+         String[] doktorlar = {"Dr. Ahmet", "Dr. Mehmet", "Dr. Ayşe", "Dr. Fatma"};
+         comboBox = new JComboBox<>(doktorlar);
+         comboBox.setBounds(409, 160, 150, 25);
+         contentPane.add(comboBox);
+ 
+         // *Klinikler için Radyo Butonları*
+         group = new ButtonGroup();
+         JRadioButton rdbtnKBB = new JRadioButton("KBB Cerrahi");
+         rdbtnKBB.setBounds(39, 230, 150, 21);
+         rdbtnKBB.setFont(new Font("Tahoma", Font.BOLD, 13));
+         rdbtnKBB.setBackground(Color.LIGHT_GRAY);
+         contentPane.add(rdbtnKBB);
+         group.add(rdbtnKBB);
+ 
+         JRadioButton rdbtnDis = new JRadioButton("Ağız ve Diş Sağlığı");
+         rdbtnDis.setBounds(39, 253, 180, 21);
+         rdbtnDis.setFont(new Font("Tahoma", Font.BOLD, 13));
+         rdbtnDis.setBackground(Color.LIGHT_GRAY);
+         contentPane.add(rdbtnDis);
+         group.add(rdbtnDis);
+ 
+         // *Tarih Seçimi için JComboBox (ComboBox2)*
+         String[] tarihler = {"1 Ocak", "2 Ocak", "3 Ocak", "4 Ocak"};
+         comboBox2 = new JComboBox<>(tarihler);
+         comboBox2.setBounds(569, 160, 150, 25);
+         contentPane.add(comboBox2);
+ 
+         // *Saat Seçimi*
+         String[] saatler = {"08:00", "09:00", "10:00", "11:00"};
+         comboBoxSaat = new JComboBox<>(saatler);
+         comboBoxSaat.setBounds(738, 160, 150, 25);
+         contentPane.add(comboBoxSaat);
+ 
+         JButton btnTemizle = new JButton("Temizle");
+         btnTemizle.setFont(new Font("Yu Gothic UI", Font.PLAIN, 17));
+         btnTemizle.setBounds(487, 218, 295, 56);
+         contentPane.add(btnTemizle);
+ 
+         JButton btnRandevuAl = new JButton("Randevu Al");
+         btnRandevuAl.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+         btnRandevuAl.setBounds(409, 280, 150, 40);
+         contentPane.add(btnRandevuAl);
+ 
+         JLabel lblSeçimSonuc = new JLabel("");
+         lblSeçimSonuc.setBounds(409, 380, 450, 50);
+         contentPane.add(lblSeçimSonuc);
+ 
+         // *Randevu Al Butonuna Tıklandığında İşlem*
+         btnRandevuAl.addActionListener(e -> {
+             String doktor = comboBox.getSelectedItem().toString();
+             String klinik = group.getSelection() != null ? group.getSelection().getActionCommand() : "Seçim yapılmadı";
+             String tarih = comboBox2.getSelectedItem().toString();
+             String saat = comboBoxSaat.getSelectedItem().toString();
+ 
+             String message = String.format("Randevu Başarıyla Alındı!\n\nDoktor: %s\nKlinik: %s\nTarih: %s\nSaat: %s",
+                     doktor, klinik, tarih, saat);
+ 
+             lblSeçimSonuc.setText(message);
+         });
+     }
+ }
