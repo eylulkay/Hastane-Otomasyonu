@@ -1,0 +1,142 @@
+package hospital;
+
+import java.awt.EventQueue;
+import java.awt.Image;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class loginGUI extends JFrame {
+
+    private static final long serialVersionUID = 1L;
+    private JPanel w_panel; // Ana panel
+    private JTextField textField; // TC kimlik numarası için metin alanı
+    private JPasswordField passwordField_1; // Şifre alanı
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    loginGUI frame = new loginGUI(); // Giriş arayüzünü başlat
+                    frame.setVisible(true); // Arayüzü görünür hale getir
+                } catch (Exception e) {
+                    e.printStackTrace(); // Hata oluşursa konsola yazdır
+                }
+            }
+        });
+    }
+
+    public loginGUI() {
+        setTitle("Özel Asena Sağlık Merkezi"); // Pencere başlığı
+        setResizable(false); // Pencere yeniden boyutlandırılamaz
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Pencere kapatıldığında program sona ersin
+        setBounds(100, 100, 1117, 605); // Pencerenin boyutlarını ve başlangıç konumunu belirle
+        w_panel = new JPanel();
+        w_panel.setLayout(null); // Serbest konumlandırma
+        setContentPane(w_panel); // Paneli pencereye ekle
+
+        // **Başlık**
+        JLabel lblNewLabel = new JLabel("Özel Asena Sağlık Merkezi");
+        lblNewLabel.setBounds(345, 10, 422, 40);
+        lblNewLabel.setForeground(new Color(255, 255, 255)); // Beyaz renkli başlık
+        lblNewLabel.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 30));
+        w_panel.add(lblNewLabel);
+
+        // **Sekme Paneli**
+        JTabbedPane w_tabpanel = new JTabbedPane(JTabbedPane.TOP);
+        w_tabpanel.setBounds(90, 94, 919, 421);
+        w_panel.add(w_tabpanel);
+
+        // **Hasta Girişi Paneli**
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBackground(new Color(255, 255, 255)); // Beyaz arka plan
+        w_tabpanel.addTab("Hasta Girişi", null, panel, null);
+
+        // **Hasta Paneli - Logo**
+        ImageIcon originalLogo = new ImageIcon(getClass().getResource("hastlogo.png"));
+        Image resizedLogo = originalLogo.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+        ImageIcon logoIcon = new ImageIcon(resizedLogo);
+
+        JLabel lbl_logo = new JLabel(logoIcon);
+        lbl_logo.setBounds(316, 10, 200, 150);
+        panel.add(lbl_logo);
+
+        // **Hasta Paneli - Hastane Görseli**
+        ImageIcon originalHospital = new ImageIcon(getClass().getResource("hospitale.png"));
+        Image resizedHospital = originalHospital.getImage().getScaledInstance(456, 308, Image.SCALE_SMOOTH);
+        ImageIcon hospitalIcon = new ImageIcon(resizedHospital);
+
+        JLabel lbl_hastanefoto = new JLabel(hospitalIcon);
+        lbl_hastanefoto.setBounds(-55, 69, 490, 215);
+        panel.add(lbl_hastanefoto);
+
+        // **Hasta Giriş Alanları**
+        JLabel lbl_tc = new JLabel("T.C. Kimlik numaranız:");
+        lbl_tc.setFont(new Font("Yu Gothic", Font.PLAIN, 20));
+        lbl_tc.setBounds(526, 54, 281, 66);
+        panel.add(lbl_tc);
+
+        textField = new JTextField();
+        textField.setFont(new Font("Yu Gothic UI", Font.PLAIN, 16));
+        textField.setBounds(526, 104, 254, 39);
+        panel.add(textField);
+
+        JLabel lbl_sifre = new JLabel("Şifreniz:");
+        lbl_sifre.setFont(new Font("Yu Gothic", Font.PLAIN, 20));
+        lbl_sifre.setBounds(526, 165, 281, 66);
+        panel.add(lbl_sifre);
+
+        passwordField_1 = new JPasswordField();
+        passwordField_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
+        passwordField_1.setBounds(526, 222, 254, 39);
+        panel.add(passwordField_1);
+
+        // **Giriş Butonu**
+        JButton btnGiris = new JButton("Giriş Yap");
+        btnGiris.setFont(new Font("Yu Gothic UI", Font.PLAIN, 18));
+        btnGiris.setBounds(316, 294, 206, 60);
+        panel.add(btnGiris);
+
+        JLabel lblNewLabel_2 = new JLabel("Hasta Giriş Ekranındasınız");
+        lblNewLabel_2.setFont(new Font("Yu Gothic UI Light", Font.PLAIN, 18));
+        lblNewLabel_2.setBounds(10, 0, 298, 39);
+        panel.add(lblNewLabel_2);
+
+        // **Arka Plan Görseli**
+        JLabel lbl_arkaplan = new JLabel(new ImageIcon(getClass().getResource("hast.png")));
+        lbl_arkaplan.setBounds(-18, -96, 1142, 707);
+        w_panel.add(lbl_arkaplan);
+        w_panel.setComponentZOrder(lbl_arkaplan, w_panel.getComponentCount() - 1);
+
+        // **btnGiris ActionListener**
+        btnGiris.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Kullanıcının TC kimlik numarasını ve şifresini al
+                String tcNo = textField.getText();
+                String sifre = new String(passwordField_1.getPassword());
+
+                // Eğer TC kimlik numarası veya şifre boşsa, hata mesajı göster
+                if (tcNo.isEmpty() || sifre.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "T.C. ve şifre boş bırakılamaz!", "Hata", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Örnek olarak sabit TC ve şifre ile giriş kontrolü yapılıyor
+                if (tcNo.equals("12345678901") && sifre.equals("sifre123")) {
+                    // Giriş başarılı, yeni pencereyi aç
+                    deneme randevuPaneli = new deneme();
+                    randevuPaneli.setVisible(true);
+
+                    // Mevcut pencereyi kapat
+                    dispose();
+                } else {
+                    // Hatalı giriş mesajı göster
+                    JOptionPane.showMessageDialog(null, "Hatalı TC veya şifre!", "Giriş Hatası", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+    }
+}
